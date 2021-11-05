@@ -1,0 +1,40 @@
+const bodyParser = require('body-parser');
+const cors = require('@robertoachar/express-cors');
+const express = require('express');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+const { catchAll, notFound } = require('./error');
+
+const app = express();
+const votingRouter = require('./routes/voting/voting.router');
+
+app.use(helmet());
+app.use(cors());
+
+morgan.token('statusColor', (req, res, args) => {
+    // get the status code if response written
+    var status = (typeof res.headersSent !== 'boolean' ? Boolean(res.header) : res.headersSent)
+        ? res.statusCode
+        : undefined
+
+    // get status color
+    var color = status >= 500 ? 31 // red
+        : status >= 400 ? 33 // yellow
+            : status >= 300 ? 36 // cyan
+                : status >= 200 ? 32 // green
+                    : 0; // no color
+
+    return '\x1b[' + color + 'm' + status + '\x1b[0m';
+});
+app.use(morgan(`:date[iso] > :req[x-forwarded-for] \x1b[33m:method\x1b[0m \x1b[36m:url\x1b[0m :statusColor :response-time ms - length|:res[content-length]`));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/api/vote', votingRouter);
+
+app.use(notFound);
+app.use(catchAll);
+
+module.exports = app;
