@@ -22,7 +22,7 @@
     "@robertoachar/express-cors": "1.0.2",
     "axios": "^0.24.0",
     "body-parser": "1.18.2",
-    "dotenv": "5.0.1",
+    "dotenv": "^5.0.1",
     "express": "4.16.3",
     "express-catch-errors": "0.1.0",
     "express-validator": "6.10.0",

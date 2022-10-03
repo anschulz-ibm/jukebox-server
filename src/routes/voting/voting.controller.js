@@ -27,7 +27,7 @@ function fillCandidates() {
 	var newCandidates = allSongs.slice(0, config.maxVotingOptions);
 	candidates = newCandidates.map((element) => {return new Votes(element, 0)});
 
-	//console.log(candidates)
+	console.log(candidates)
 }
 
 async function processVotes() {
@@ -46,7 +46,7 @@ async function processVotes() {
 		}
 	}
 
-	//console.log(winner);
+	console.log("Winner: " + JSON.stringify(winner));
 
 	// add to queue
 	console.log(await volumio.queue.add(winner.song));
@@ -56,7 +56,7 @@ async function processVotes() {
 	var status = await volumio.status();
 	var queue = await volumio.queue.get();
 	
-	console.log(status)
+	console.log("Status: " + JSON.stringify(status))
 
 	// time of current running song
 	var timeRemaining = (status.duration * 1000) - status.seek;
@@ -75,16 +75,21 @@ async function processVotes() {
 
 module.exports.init = async () => {
 
+	console.log("Init Volumio connection");
+
 	// init volumio connection
 	await volumio.init();
 
+	console.log("Fetch alls songs from: " + config.VOLUMIO_FOLDER);
+
 	// get all songs from volumio
 	allSongs = await volumio.browse();
+	
 	// init candidates
 	fillCandidates();
 
-	// time initial vote (no song playing yet) to 60 seconds
-	voteTimer = setTimeout(processVotes, 60 * 1000);
+	// time initial vote (no song playing yet) to 10 seconds
+	voteTimer = setTimeout(processVotes, 10 * 1000);
 }
 
 module.exports.view = async (req, res, next) => {

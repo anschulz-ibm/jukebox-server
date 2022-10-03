@@ -2,7 +2,7 @@
 
 require('dotenv').config();
 
-const environment = ['NODE_ENV', 'PORT', 'VOLUMIO_HOST'];
+const environment = ['NODE_ENV', 'PORT', 'VOLUMIO_HOST', 'VOLUMIO_FOLDER'];
 
 environment.forEach((name) => {
   if (!process.env[name]) {
@@ -13,6 +13,7 @@ environment.forEach((name) => {
 module.exports = {
   NODE_ENV: process.env.NODE_ENV,
   VOLUMIO_HOST: process.env.VOLUMIO_HOST,
+  VOLUMIO_FOLDER: process.env.VOLUMIO_FOLDER,
   PORT: process.env.PORT,
   maxVotingOptions: 5
 };

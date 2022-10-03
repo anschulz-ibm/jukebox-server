@@ -14,7 +14,7 @@ const urls = {
 		get: `http://${config.VOLUMIO_HOST}/api/v1/getQueue`
 	},
 	status: `http://${config.VOLUMIO_HOST}/api/v1/getState`,
-	browse: `http://${config.VOLUMIO_HOST}/api/v1/browse?uri=music-library/USB/usb`
+	browse: `http://${config.VOLUMIO_HOST}/api/v1/browse?uri=music-library/${config.VOLUMIO_FOLDER}`
 }
 
 module.exports.init = async () => {
